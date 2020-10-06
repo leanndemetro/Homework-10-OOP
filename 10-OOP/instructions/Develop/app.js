@@ -75,8 +75,6 @@ function createManager() {
 
 // this is a nested function that creates a new manager if selected
 function teamMemberChoice() {
-    //print the string
-    console.log("Please build your team");
     //creates a new inquirer prompt input with the listed question
     inquirer.prompt([
         {
@@ -98,7 +96,7 @@ function teamMemberChoice() {
             createIntern();
         };
         if (answer.memberChoice === "I dont want any more team members") {
-            console.log("Team formulating...");
+            console.log(teamMembers);
             //call render to html function
         }
     })
@@ -107,11 +105,8 @@ function teamMemberChoice() {
 
 
 
-
 // this is a nested function that creates a new manager if selected
 function createEngineer() {
-            //print the string
-            console.log("Please build your team");
             //creates a new inquirer prompt input with the listed question
             inquirer.prompt([
                 {
@@ -151,13 +146,14 @@ function createEngineer() {
                 const engineer = new Engineer(answer.engineerName, answer.engineerId, answer.engineerEmail, answer.engineerGithub);
                 teamMembers.push(engineer);
                 idArray.push(answer.engineerId);
+                teamMemberChoice();
 
             });
+            
         }
+
 // this is a nested function that creates a new manager if selected
 function createIntern() {
-            //print the string
-            console.log("Please build your team");
             //creates a new inquirer prompt input with the listed question
             inquirer.prompt([
                 {
@@ -197,7 +193,8 @@ function createIntern() {
                 const intern = new Intern(answer.internName, answer.internId, answer.internEmail, answer.internSchool);
                 teamMembers.push(intern);
                 idArray.push(answer.internId);
-                console.log(teamMembers);
+                teamMemberChoice();
+
 
             });
         }
