@@ -1,0 +1,40 @@
+Pull up previous homework
+
+require
+const inquirer = require("inquirer");
+const fs = require("fs");
+const path = require("path");
+const OUTPUT_DIR = path.resolve(__dirname, "output");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
+const render = require("./lib/htmlRenderer");
+
+//create empty arrays to push user input data information
+const teamMembers = [];
+
+const idArray = [];
+
+Create prompts to get desired information 
+
+function prompt() {
+    return inquirer.prompt([
+        {
+        type: "list",
+        message: "What is your manager's name?",
+        name: "managerName"
+        }
+    ])
+    //if it has content, return true
+
+    //if it has no content, return false
+
+    // if it returns true, take the value of answers.name 
+
+    //push it into teamMembers and idArray
+};
+
+
+ensure a correct line of questioning
+
+take entered user information and write a new index.html file with the data input within various html elements
+
+
