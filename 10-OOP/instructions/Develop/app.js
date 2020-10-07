@@ -7,15 +7,15 @@ const Intern = require("./lib/Intern");
 //creates a new variable called iquirer, that requires npm inquirer package 
 const inquirer = require("inquirer");
 //creates new variable called path that requires npm path package
+const path = require("path");
 
-
-// //
-// const OUTPUT_DIR = path.resolve(__dirname, "output");
-// //
-// const outputPath = path.join(OUTPUT_DIR, "team.html");
+//declare constants for output for render file
+const OUTPUT_DIR = path.resolve(__dirname, "output");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 // //creates a new variable called render that requires the htmlRenderer file
 const render = require("./lib/htmlRenderer");
+const fs = require("fs");
 
 //creates an empty array called teamMembers
 const teamMembers = [];
@@ -53,7 +53,7 @@ function createManager() {
                 if (answer !== "") {
                     return true;
                 }
-                return "Please enter valid e-email address."
+                return "Please enter valid e-mail address."
             }
         },
         {
@@ -97,7 +97,7 @@ function teamMemberChoice() {
         };
         if (answer.memberChoice === "I dont want any more team members") {
             console.log(teamMembers);
-            //call render to html function
+            renderTeam();
         }
     })
 
@@ -105,100 +105,119 @@ function teamMemberChoice() {
 
 
 
-// this is a nested function that creates a new manager if selected
-function createEngineer() {
-            //creates a new inquirer prompt input with the listed question
-            inquirer.prompt([
-                {
-                    type: "input",
-                    name: "engineerName",
-                    message: "What is your engineer's name?",
-                    validate: answer => {
-                        if (answer !== "") {
-                            return true;
-                        }
-                        return "Please enter a name";
+    // this is a nested function that creates a new manager if selected
+    function createEngineer() {
+        //creates a new inquirer prompt input with the listed question
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "engineerName",
+                message: "What is your engineer's name?",
+                validate: answer => {
+                    if (answer !== "") {
+                        return true;
                     }
-                },
-                {
-                    type: "number",
-                    name: "engineerId",
-                    message: "What is your engineer's ID number?",
-                },
-                {
-                    type: "email",
-                    name: "engineerEmail",
-                    message: "What is your engineer's Email address?",
-                    validate: answer => {
-                        if (answer !== "") {
-                            return true;
-                        }
-                        return "Please enter valid e-email address."
-                    }
-                },
-                {
-                    type: "URL",
-                    name: "engineerGithub",
-                    message: "What is your engineers's Github username?",
+                    return "Please enter a name";
                 }
-
-            ]).then(answer => {
-                const engineer = new Engineer(answer.engineerName, answer.engineerId, answer.engineerEmail, answer.engineerGithub);
-                teamMembers.push(engineer);
-                idArray.push(answer.engineerId);
-                teamMemberChoice();
-
-            });
-            
-        }
-
-// this is a nested function that creates a new manager if selected
-function createIntern() {
-            //creates a new inquirer prompt input with the listed question
-            inquirer.prompt([
-                {
-                    type: "input",
-                    name: "internName",
-                    message: "What is your intern's name?",
-                    validate: answer => {
-                        if (answer !== "") {
-                            return true;
-                        }
-                        return "Please enter a name";
+            },
+            {
+                type: "number",
+                name: "engineerId",
+                message: "What is your engineer's ID number?",
+            },
+            {
+                type: "email",
+                name: "engineerEmail",
+                message: "What is your engineer's Email address?",
+                validate: answer => {
+                    if (answer !== "") {
+                        return true;
                     }
-                },
-                {
-                    type: "number",
-                    name: "internId",
-                    message: "What is your intern's ID number?",
-                },
-                {
-                    type: "email",
-                    name: "internEmail",
-                    message: "What is your interns's Email address?",
-                    validate: answer => {
-                        if (answer !== "") {
-                            return true;
-                        }
-                        return "Please enter valid e-email address."
-                    }
-                },
-                {
-                    type: "input",
-                    name: "internSchool",
-                    message: "What school does your intern go to?",
+                    return "Please enter valid e-email address."
                 }
+            },
+            {
+                type: "URL",
+                name: "github",
+                message: "What is your engineers's Github username?",
+            }
 
-            ]).then(answer => {
-                const intern = new Intern(answer.internName, answer.internId, answer.internEmail, answer.internSchool);
-                teamMembers.push(intern);
-                idArray.push(answer.internId);
-                teamMemberChoice();
+        ]).then(answer => {
+            const engineer = new Engineer(answer.engineerName, answer.engineerId, answer.engineerEmail, answer.engineerGithub);
+            teamMembers.push(engineer);
+            idArray.push(answer.engineerId);
+            teamMemberChoice();
+
+        });
+
+    }
+
+    // this is a nested function that creates a new manager if selected
+    function createIntern() {
+        //creates a new inquirer prompt input with the listed question
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "internName",
+                message: "What is your intern's name?",
+                validate: answer => {
+                    if (answer !== "") {
+                        return true;
+                    }
+                    return "Please enter a name";
+                }
+            },
+            {
+                type: "number",
+                name: "internId",
+                message: "What is your intern's ID number?",
+            },
+            {
+                type: "email",
+                name: "internEmail",
+                message: "What is your interns's Email address?",
+                validate: answer => {
+                    if (answer !== "") {
+                        return true;
+                    }
+                    return "Please enter valid e-email address."
+                }
+            },
+            {
+                type: "input",
+                name: "school",
+                message: "What school does your intern go to?",
+            }
+
+        ]).then(answer => {
+            const intern = new Intern(answer.internName, answer.internId, answer.internEmail, answer.school);
+            teamMembers.push(intern);
+            idArray.push(answer.internId);
+            teamMemberChoice();
 
 
-            });
-        }
+        });
+    }
 }
+
+
+//function that takes data and renders to a new file
+function renderTeam() {
+    const renderedTeam = render(teamMembers)
+    fs.writeFile(outputPath, renderedTeam, function (err) {
+        if (err) return console.log(err) 
+    }); 
+    console.log("sucessful write");
+}
+
+
+
+
+
+
+
+
+
 
 
 
