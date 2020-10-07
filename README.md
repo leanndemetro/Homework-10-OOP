@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<h1>Employer team builder</h1>
+<h1>Employer Team Builder</h1>
 <hr>
 </head>
 <body>
@@ -27,10 +27,12 @@
 <p>requires inquirer, path, jest, and fs</p>
 
 <h2>Usage:</h2>
-<p>run node app.js and fill in desired information, when you no longer wish to add new team members, a new file will be written to the output folder.</p>
+<p>run "node app.js" and fill in desired information, when you no longer wish to add new team members, a new file will be written to the output folder.</p>
 
 <h2>Contributing:</h2>
-<p>N/A</p>
+<p>Credit Ben Brumby</p>
+<br>
+
     
 <h2>Tests:</h2>
 <p>run "npm run test" to test and see information within integrated terminal</p>
