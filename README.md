@@ -7,6 +7,7 @@
 <hr>
 </head>
 <body>
+<img src = "10-OOP/instructions/assets/myteam.jpeg">
 
 <h2>Table of Contents:</h2>
     
